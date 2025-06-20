@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Cadastro de Produtos - Tabela Hash</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .control-panel {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        .table-section {
+            background: white;
+        }
+
+        .table-container {
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid #e9ecef;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .hash-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .hash-table th {
+            background: #f8f9fa;
+            padding: 15px 10px;
+            text-align: center;
+            font-weight: 600;
+            color: #2c3e50;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .hash-table td {
+            padding: 12px 10px;
+            text-align: center;
+            border-bottom: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+
+        .hash-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-vazio {
+            background-color: #ecf0f1;
+            color: #7f8c8d;
+        }
+
+        .status-ocupado {
+            background-color: #d5f4e6;
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .status-removido {
+            background-color: #fadbd8;
+            color: #e74c3c;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .stat-card p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .messages {
+            margin-top: 30px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-weight: 500;
+            animation: slideIn 0.3s ease;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .search-result {
+            background: #e8f5e8;
+            border: 2px solid #27ae60;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .search-result h4 {
+            color: #27ae60;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .search-result .product-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .search-result .info-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .search-result .info-item strong {
+            display: block;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .hash-table {
+                font-size: 14px;
+            }
+            
+            .hash-table th,
+            .hash-table td {
+                padding: 8px 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔗 Sistema de Tabela Hash</h1>
+            <p>Cadastro de Produtos com Sondagem Linear</p>
+            <p><strong>Função Hash:</strong> código % 10 | <strong>Tamanho:</strong> 10 posições</p>
+        </div>
+
+        <div class="main-content">
+            <div class="control-panel">
+                <h2 style="margin-bottom: 25px; color: #2c3e50; text-align: center;">🎛️ Painel de Controle</h2>
+                
+                <div class="form-group">
+                    <label for="codigo">📦 Código do Produto:</label>
+                    <input type="number" id="codigo" placeholder="Ex: 123">
+                </div>
+                
+                <div class="form-group">
+                    <label for="nome">🏷️ Nome do Produto:</label>
+                    <input type="text" id="nome" placeholder="Ex: Notebook Dell">
+                </div>
+                
+                <div class="form-group">
+                    <label for="preco">💰 Preço (R$):</label>
+                    <input type="number" id="preco" step="0.01" placeholder="Ex: 2500.99">
+                </div>
+
+                <button class="btn btn-primary" onclick="inserirProduto()">
+                    ➕ Inserir Produto
+                </button>
+                
+                <button class="btn btn-success" onclick="buscarProduto()">
+                    🔍 Buscar Produto
+                </button>
+                
+                <button class="btn btn-danger" onclick="removerProduto()">
+                    🗑️ Remover Produto
+                </button>
+                
+                <button class="btn btn-secondary" onclick="limparFormulario()">
+                    🧹 Limpar Campos
+                </button>
+                
+                <button class="btn btn-warning" onclick="exportarCSV()">
+                    📊 Exportar CSV
+                </button>
+
+                <div id="searchResult"></div>
+            </div>
+
+            <div class="table-section">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2>📋 Tabela Hash</h2>
+                    </div>
+                    
+                    <table class="hash-table">
+                        <thead>
+                            <tr>
+                                <th>Índice</th>
+                                <th>Estado</th>
+                                <th>Código</th>
+                                <th>Nome</th>
+                                <th>Preço</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaHash">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-card">
+                        <h3 id="totalProdutos">0</h3>
+                        <p>📦 Total de Produtos</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="totalColisoes">0</h3>
+                        <p>⚡ Total de Colisões</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="taxaOcupacao">0%</h3>
+                        <p>📊 Taxa de Ocupação</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="messages" id="messages"></div>
+    </div>
+
+    <script>
+        // Constantes
+        const TAMANHO_TABELA = 10;
+        
+        // Estados possíveis
+        const Estado = {
+            VAZIO: 'VAZIO',
+            OCUPADO: 'OCUPADO',
+            REMOVIDO: 'REMOVIDO'
+        };
+
+        // Estrutura da tabela hash
+        let tabelaHash = {
+            tabela: Array(TAMANHO_TABELA).fill(null).map(() => ({
+                codigo: null,
+                nome: '',
+                preco: 0,
+                estado: Estado.VAZIO
+            })),
+            totalColisoes: 0,
+            totalProdutos: 0
+        };
+
+        // Função hash
+        function funcaoHash(codigo) {
+            return codigo % TAMANHO_TABELA;
+        }
+
+        // Função para exibir mensagens
+        function exibirMensagem(texto, tipo = 'info') {
+            const messagesDiv = document.getElementById('messages');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${tipo}`;
+            alert.textContent = texto;
+            
+            messagesDiv.appendChild(alert);
+            
+            // Remove a mensagem após 5 segundos
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.parentNode.removeChild(alert);
+                }
+            }, 5000);
+            
+            // Scroll para ver a mensagem
+            alert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Inserir produto
+        function inserirProduto() {
+            const codigo = parseInt(document.getElementById('codigo').value);
+            const nome = document.getElementById('nome').value.trim();
+            const preco = parseFloat(document.getElementById('preco').value);
+
+            // Validações
+            if (!codigo || !nome || !preco) {
+                exibirMensagem('Por favor, preencha todos os campos!', 'error');
+                return;
+            }
+
+            if (tabelaHash.totalProdutos >= TAMANHO_TABELA) {
+                exibirMensagem('Erro: Tabela cheia!', 'error');
+                return;
+            }
+
+            let pos = funcaoHash(codigo);
+            const posOriginal = pos;
+            let colisoes = 0;
+
+            do {
+                if (tabelaHash.tabela[pos].estado === Estado.OCUPADO && 
+                    tabelaHash.tabela[pos].codigo === codigo) {
+                    exibirMensagem(`Erro: Produto com código ${codigo} já existe!`, 'error');
+                    return;
+                }
+
+                if (tabelaHash.tabela[pos].estado === Estado.VAZIO || 
+                    tabelaHash.tabela[pos].estado === Estado.REMOVIDO) {
+                    // Inserir produto
+                    tabelaHash.tabela[pos] = {
+                        codigo: codigo,
+                        nome: nome,
+                        preco: preco,
+                        estado: Estado.OCUPADO
+                    };
+                    
+                    tabelaHash.totalProdutos++;
+                    tabelaHash.totalColisoes += colisoes;
+                    
+                    let mensagem = `Produto inserido com sucesso na posição ${pos}`;
+                    if (colisoes > 0) {
+                        mensagem += ` (após ${colisoes} colisão(ões))`;
+                    }
+                    exibirMensagem(mensagem, 'success');
+                    
+                    limparFormulario();
+                    atualizarTabela();
+                    return;
+                }
+
+                colisoes++;
+                pos = (pos + 1) % TAMANHO_TABELA;
+
+            } while (pos !== posOriginal);
+
+            exibirMensagem('Erro: Não foi possível inserir o produto!', 'error');
+        }
+
+        // Buscar produto
+        function buscarProduto() {
+            const codigo = parseInt(document.getElementById('codigo').value);
+            
+            if (!codigo) {
+                exibirMensagem('Por favor, digite um código para buscar!', 'error');
+                return;
+            }
+
+            let pos = funcaoHash(codigo);
+            const posOriginal = pos;
+            let tentativas = 0;
+
+            do {
+                tentativas++;
+
+                if (tabelaHash.tabela[pos].estado === Estado.VAZIO) {
+                    exibirMensagem(`Produto com código ${codigo} não encontrado (posição ${pos} vazia após ${tentativas} tentativa(s))`, 'warning');
+                    limparResultadoBusca();
+                    return;
+                }
+
+                if (tabelaHash.tabela[pos].estado === Estado.OCUPADO && 
+                    tabelaHash.tabela[pos].codigo === codigo) {
+                    
+                    const produto = tabelaHash.tabela[pos];
+                    exibirMensagem(`Produto encontrado na posição ${pos} após ${tentativas} tentativa(s)!`, 'success');
+                    
+                    // Exibir resultado da busca
+                    exibirResultadoBusca(produto, pos, tentativas);
+                    return;
+                }
+
+                pos = (pos + 1) % TAMANHO_TABELA;
+
+            } while (pos !== posOriginal);
+
+            exibirMensagem(`Produto com código ${codigo} não encontrado após verificar toda a tabela`, 'warning');
+            limparResultadoBusca();
+        }
+
+        // Exibir resultado da busca
+        function exibirResultadoBusca(produto, posicao, tentativas) {
+            const resultDiv = document.getElementById('searchResult');
+            resultDiv.innerHTML = `
+                <div class="search-result">
+                    <h4>🎯 Produto Encontrado!</h4>
+                    <div class="product-info">
+                        <div class="info-item">
+                            <strong>Posição</strong>
+                            ${posicao}
+                        </div>
+                        <div class="info-item">
+                            <strong>Tentativas</strong>
+                            ${tentativas}
+                        </div>
+                        <div class="info-item">
+                            <strong>Código</strong>
+                            ${produto.codigo}
+                        </div>
+                        <div class="info-item">
+                            <strong>Nome</strong>
+                            ${produto.nome}
+                        </div>
+                        <div class="info-item">
+                            <strong>Preço</strong>
+                            R$ ${produto.preco.toFixed(2)}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Limpar resultado da busca
+        function limparResultadoBusca() {
+            document.getElementById('searchResult').innerHTML = '';
+        }
+
+        // Remover produto
+        function removerProduto() {
+            const codigo = parseInt(document.getElementById('codigo').value);
+            
+            if (!codigo) {
+                exibirMensagem('Por favor, digite um código para remover!', 'error');
+                return;
+            }
+
+            let pos = funcaoHash(codigo);
+            const posOriginal = pos;
+            let tentativas = 0;
+
+            do {
+                tentativas++;
+
+                if (tabelaHash.tabela[pos].estado === Estado.VAZIO) {
+                    exibirMensagem(`Produto com código ${codigo} não encontrado para remoção`, 'warning');
+                    return;
+                }
+
+                if (tabelaHash.tabela[pos].estado === Estado.OCUPADO && 
+                    tabelaHash.tabela[pos].codigo === codigo) {
+                    
+                    tabelaHash.tabela[pos].estado = Estado.REMOVIDO;
+                    tabelaHash.totalProdutos--;
+                    
+                    exibirMensagem(`Produto removido da posição ${pos} após ${tentativas} tentativa(s)!`, 'success');
+                    limparFormulario();
+                    limparResultadoBusca();
+                    atualizarTabela();
+                    return;
+                }
+
+                pos = (pos + 1) % TAMANHO_TABELA;
+
+            } while (pos !== posOriginal);
+
+            exibirMensagem(`Produto com código ${codigo} não encontrado para remoção`, 'warning');
+        }
+
+        // Limpar formulário
+        function limparFormulario() {
+            document.getElementById('codigo').value = '';
+            document.getElementById('nome').value = '';
+            document.getElementById('preco').value = '';
+            limparResultadoBusca();
+        }
+
+        // Atualizar exibição da tabela
+        function atualizarTabela() {
+            const tbody = document.getElementById('tabelaHash');
+            tbody.innerHTML = '';
+
+            for (let i = 0; i < TAMANHO_TABELA; i++) {
+                const produto = tabelaHash.tabela[i];
+                const row = tbody.insertRow();
+                
+                let classe = '';
+                let conteudo = '';
+                
+                switch (produto.estado) {
+                    case Estado.VAZIO:
+                        classe = 'status-vazio';
+                        conteudo = `
+                            <td>${i}</td>
+                            <td class="${classe}">🔳 VAZIO</td>
+                            <td class="${classe}">-</td>
+                            <td class="${classe}">-</td>
+                            <td class="${classe}">-</td>
+                        `;
+                        break;
+                    case Estado.REMOVIDO:
+                        classe = 'status-removido';
+                        conteudo = `
+                            <td>${i}</td>
+                            <td class="${classe}">🗑️ REMOVIDO</td>
+                            <td class="${classe}">-</td>
+                            <td class="${classe}">-</td>
+                            <td class="${classe}">-</td>
+                        `;
+                        break;
+                    case Estado.OCUPADO:
+                        classe = 'status-ocupado';
+                        conteudo = `
+                            <td>${i}</td>
+                            <td class="${classe}">✅ OCUPADO</td>
+                            <td class="${classe}">${produto.codigo}</td>
+                            <td class="${classe}">${produto.nome}</td>
+                            <td class="${classe}">R$ ${produto.preco.toFixed(2)}</td>
+                        `;
+                        break;
+                }
+                
+                row.innerHTML = conteudo;
+            }
+
+            // Atualizar estatísticas
+            document.getElementById('totalProdutos').textContent = tabelaHash.totalProdutos;
+            document.getElementById('totalColisoes').textContent = tabelaHash.totalColisoes;
+            document.getElementById('taxaOcupacao').textContent = 
+                `${(tabelaHash.totalProdutos / TAMANHO_TABELA * 100).toFixed(1)}%`;
+        }
+
+        // Exportar para CSV
+        function exportarCSV() {
+            let csv = 'Indice,Estado,Codigo,Nome,Preco\n';
+            
+            for (let i = 0; i < TAMANHO_TABELA; i++) {
+                const produto = tabelaHash.tabela[i];
+                
+                switch (produto.estado) {
+                    case Estado.VAZIO:
+                        csv += `${i},VAZIO,,,\n`;
+                        break;
+                    case Estado.REMOVIDO:
+                        csv += `${i},REMOVIDO,,,\n`;
+                        break;
+                    case Estado.OCUPADO:
+                        csv += `${i},OCUPADO,${produto.codigo},"${produto.nome}",${produto.preco.toFixed(2)}\n`;
+                        break;
+                }
+            }
+
+            // Download do arquivo
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'tabela_produtos.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            exibirMensagem('Tabela exportada com sucesso para tabela_produtos.csv!', 'success');
+        }
+
+        // Inicializar a tabela na carga da página
+        window.onload = function() {
+            atualizarTabela();
+            exibirMensagem('Sistema carregado! Função hash: código % 10', 'info');
+        };
+
+        // Permitir Enter nos campos de input
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const activeElement = document.activeElement;
+                if (activeElement.tagName === 'INPUT') {
+                    if (activeElement.id === 'codigo' && !document.getElementById('nome').value) {
+                        document.getElementById('nome').focus();
+                    } else if (activeElement.id === 'nome' && !document.getElementById('preco').value) {
+                        document.getElementById('preco').focus();
+                    } else {
+                        inserirProduto();
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
