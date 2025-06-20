@@ -122,3 +122,28 @@ Ao remover um produto, a posição é marcada como REMOVIDO, não VAZIO, garanti
 3. Função hash mais robusta para distribuição uniforme
 4. Interface gráfica
 5. Persistência de dados em arquivo
+# Sistema de Cadastro de Produtos - Tabela Hash
+
+🔗 **[Acesse o sistema online](https://[SEU_USUARIO.github.io/tabela-hash-aedi](https://felpsranger.github.io/Trabalho-Pratico-Implementa-cao-de-Tabela-Hash-com-Vetor-e-Sondagem-Linear/))**
+
+## Sobre o Projeto
+Sistema de cadastro de produtos implementado com tabela hash e sondagem linear, desenvolvido para a disciplina de Algoritmos e Estruturas de Dados I (AEDI) da UFAM.
+
+## Funcionalidades
+- ✅ Inserir produtos com tratamento de colisões
+- ✅ Buscar produtos por código
+- ✅ Remover produtos (marcação especial)
+- ✅ Visualizar tabela completa
+- ✅ Estatísticas em tempo real
+- ✅ Exportar dados para CSV
+
+## Tecnologias
+- **Versão Web:** HTML5, CSS3, JavaScript
+- **Versão Original:** Linguagem C
+- **Hospedagem:** GitHub Pages
+
+## Hash Function
+```javascript
+function funcaoHash(codigo) {
+    return codigo % 10;
+}
