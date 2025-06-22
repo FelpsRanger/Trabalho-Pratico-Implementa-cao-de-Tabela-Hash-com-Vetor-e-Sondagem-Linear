@@ -4,6 +4,10 @@
 > Universidade Federal do Amazonas - UFAM  
 > Desenvolvido por: **Felipe Rangel**, **Kaio Sobral** e **Gustavo Souza**
 
+## Versão C e web para teste
+- [Codigo em C](https://www.onlinegdb.com)
+- [Site](https://felpsranger.github.io/Trabalho-Pratico-Implementacao-de-Tabela-Hash-com-Vetor-e-Sondagem-Linear/)
+
 ## 📋 Sobre o Projeto
 
 Este projeto implementa um sistema completo de cadastro de produtos utilizando **Tabela Hash** como estrutura de dados principal. O sistema foi desenvolvido em duas versões: uma implementação em **C** (console) e uma versão **Web** (HTML/CSS/JavaScript) com interface gráfica moderna.
