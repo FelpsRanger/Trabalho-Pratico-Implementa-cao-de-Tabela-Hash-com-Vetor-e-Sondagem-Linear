@@ -239,65 +239,8 @@ do {
 - **Colisões por produto** (média)
 - **Distribuição** dos produtos na tabela
 
-## 🔮 Melhorias Futuras
-
-### Funcionalidades Planejadas
-- [ ] Redimensionamento dinâmico da tabela
-- [ ] Implementação de Double Hashing
-- [ ] Sistema de persistência em arquivo
-- [ ] Interface web mais avançada
-- [ ] Relatórios em PDF
-- [ ] Sistema de backup automático
-
-### Otimizações Técnicas
-- [ ] Função hash mais robusta
-- [ ] Compressão de dados
-- [ ] Cache de consultas frequentes
-- [ ] Índices secundários
-- [ ] Balanceamento de carga
-
-## 🤝 Contribuição
-
-### Como Contribuir
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-funcionalidade`)
-3. Commit suas mudanças (`git commit -m 'Adiciona nova funcionalidade'`)
-4. Push para a branch (`git push origin feature/nova-funcionalidade`)
-5. Abra um Pull Request
-
-### Padrões de Código
-- **C:** Siga o padrão K&R com comentários em português
-- **Web:** Use ES6+, CSS modular e HTML semântico
-- **Documentação:** Mantenha README e comentários atualizados
-
-## 📞 Contato
-
-### Desenvolvedores
-- **Felipe Rangel** - Estruturas e Algoritmos
-- **Kaio Sobral** - Lógica de Negócio e Validações  
-- **Gustavo Souza** - Interface e Experiência do Usuário
-
-### Instituição
-**Universidade Federal do Amazonas - UFAM**  
-Curso: Ciência da Computação  
-Disciplina: Estruturas de Dados  
 
 ## 📄 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
----
-
-## 🏆 Agradecimentos
-
-Agradecemos à **UFAM** pela oportunidade de desenvolver este projeto e aos professores que nos orientaram durante o desenvolvimento. Este trabalho representa nossa compreensão prática dos conceitos de estruturas de dados e sua aplicação em sistemas reais.
-
----
-
-<div align="center">
-
-**⭐ Se este projeto foi útil para você, considere dar uma estrela!**
-
-**🔧 Desenvolvido com dedicação pela equipe UFAM**
-
-</div>
