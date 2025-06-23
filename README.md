@@ -38,21 +38,7 @@ Este projeto implementa um sistema completo de cadastro de produtos utilizando *
 - **Fator de carga máximo:** 70%
 - **Limite de tentativas:** 20 (segurança)
 
-## 🛠️ Tecnologias Utilizadas
-
-### Versão C
-- **Linguagem:** C (padrão C99)
-- **Compilador:** GCC
-- **Bibliotecas:** stdio.h, stdlib.h, string.h
-
-### Versão Web
-- **Frontend:** HTML5, CSS3, JavaScript (ES6+)
-- **Estilo:** CSS Grid, Flexbox, Gradientes
-- **Responsividade:** Design adaptativo
-- **Compatibilidade:** Navegadores modernos
-
-## 👥 Divisão de Responsabilidades
-
+## 👥 Divisão da construção do código
 ### 🔧 Felipe Rangel - Estruturas e Funções Básicas
 **Responsável pela base da implementação:**
 - Definição das estruturas de dados (`Produto`, `TabelaHash`, `Estado`)
@@ -80,60 +66,6 @@ Este projeto implementa um sistema completo de cadastro de produtos utilizando *
 - Informações técnicas do sistema
 - Controle principal e loop de execução
 - Utilitários de interface (limpeza de buffer, etc.)
-
-## 📁 Estrutura do Projeto
-
-```
-📂 Sistema-Cadastro-Produtos/
-├── 📄 main.c                 # Versão em C
-├── 📄 index.html            # Versão Web
-├── 📄 README.md             # Este arquivo
-├── 📄 tabela_produtos.csv   # Arquivo de exportação (gerado)
-└── 📂 docs/                 # Documentação adicional
-    ├── 📄 manual_usuario.md
-    └── 📄 documentacao_tecnica.md
-```
-
-## 🚀 Como Executar
-
-### Versão C
-
-#### Compilação
-```bash
-gcc -o sistema_produtos main.c -std=c99 -Wall
-```
-
-#### Execução
-```bash
-./sistema_produtos
-```
-
-#### Requisitos
-- GCC 4.8 ou superior
-- Sistema operacional: Linux, macOS, Windows (com MinGW)
-
-### Versão Web
-
-#### Execução Local
-1. Baixe o arquivo `index.html`
-2. Abra em qualquer navegador moderno
-3. Não requer servidor web
-
-#### Execução com Servidor
-```bash
-# Python 3
-python -m http.server 8000
-
-# Node.js (com http-server)
-npx http-server
-
-# Acesse: http://localhost:8000
-```
-
-#### Requisitos
-- Navegador moderno (Chrome 60+, Firefox 55+, Safari 12+)
-- JavaScript habilitado
-- Não requer conexão com internet
 
 ## 📖 Manual de Uso
 
@@ -212,35 +144,5 @@ do {
 
 **Nota:** O pior caso ocorre quando há muitas colisões consecutivas.
 
-## 🧪 Testes e Validações
 
-### Cenários de Teste
-- ✅ Inserção de produtos válidos
-- ✅ Inserção de produtos duplicados
-- ✅ Busca de produtos existentes
-- ✅ Busca de produtos inexistentes
-- ✅ Remoção de produtos existentes
-- ✅ Remoção de produtos inexistentes
-- ✅ Tabela cheia
-- ✅ Colisões múltiplas
-- ✅ Validação de entrada inválida
-
-### Validações Implementadas
-- **Código:** Números positivos de 1 a 999999
-- **Nome:** Não vazio, máximo 99 caracteres
-- **Preço:** Valores não negativos, máximo R$ 999999.99
-
-## 📈 Estatísticas Monitoradas
-
-- **Total de produtos** na tabela
-- **Total de colisões** ocorridas
-- **Taxa de ocupação** da tabela
-- **Posições vazias** disponíveis
-- **Colisões por produto** (média)
-- **Distribuição** dos produtos na tabela
-
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
